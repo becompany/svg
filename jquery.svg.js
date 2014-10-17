@@ -594,7 +594,7 @@ $.extend(SVGWrapper.prototype, {
 		var node = this._makeNode(args.parent, 'use', $.extend(
 			{x: args.x, y: args.y, width: args.width, height: args.height},
 			args.settings || {}));
-		node.setAttributeNS($.svg.xlinkNS, 'href', args.ref);
+		node.setAttributeNS($.svg.xlinkNS, 'xlink:href', args.ref);
 		return node;
 	},
 
@@ -606,7 +606,7 @@ $.extend(SVGWrapper.prototype, {
 	link: function(parent, ref, settings) {
 		var args = this._args(arguments, ['ref']);
 		var node = this._makeNode(args.parent, 'a', args.settings);
-		node.setAttributeNS($.svg.xlinkNS, 'href', args.ref);
+		node.setAttributeNS($.svg.xlinkNS, 'xlink:href', args.ref);
 		return node;
 	},
 
@@ -624,7 +624,7 @@ $.extend(SVGWrapper.prototype, {
 		var node = this._makeNode(args.parent, 'image', $.extend(
 			{x: args.x, y: args.y, width: args.width, height: args.height},
 			args.settings || {}));
-		node.setAttributeNS($.svg.xlinkNS, 'href', args.ref);
+		node.setAttributeNS($.svg.xlinkNS, 'xlink:href', args.ref);
 		return node;
 	},
 
@@ -760,7 +760,7 @@ $.extend(SVGWrapper.prototype, {
 	textpath: function(parent, path, value, settings) {
 		var args = this._args(arguments, ['path', 'value']);
 		var node = this._text(args.parent, 'textPath', args.value, args.settings || {});
-		node.setAttributeNS($.svg.xlinkNS, 'href', args.path);
+		node.setAttributeNS($.svg.xlinkNS, 'xlink:href', args.path);
 		return node;
 	},
 
@@ -780,14 +780,14 @@ $.extend(SVGWrapper.prototype, {
 				}
 				else if (part[0] == 'tref') {
 					var child = this._makeNode(node, part[0], part[2]);
-					child.setAttributeNS($.svg.xlinkNS, 'href', part[1]);
+					child.setAttributeNS($.svg.xlinkNS, 'xlink:href', part[1]);
 					node.appendChild(child);
 				}
 				else if (part[0] == 'textpath') {
 					var set = $.extend({}, part[2]);
 					set.href = null;
 					var child = this._makeNode(node, part[0], set);
-					child.setAttributeNS($.svg.xlinkNS, 'href', part[2].href);
+					child.setAttributeNS($.svg.xlinkNS, 'xlink:href', part[2].href);
 					child.appendChild(node.ownerDocument.createTextNode(part[1]));
 					node.appendChild(child);
 				}
@@ -888,7 +888,7 @@ $.extend(SVGWrapper.prototype, {
 				if (attr.nodeName != 'xmlns' && attr.nodeValue) {
 					if (attr.prefix == 'xlink') {
 						newNode.setAttributeNS($.svg.xlinkNS,
-							attr.localName || attr.baseName, attr.nodeValue);
+							'xlink:' + attr.localName || attr.baseName, attr.nodeValue);
 					}
 					else {
 						newNode.setAttribute(this._checkName(attr.nodeName), attr.nodeValue);
